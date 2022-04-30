@@ -1,0 +1,34 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<nav class="navbar navbar-default navbar-inverse" role="navigation" style="position: fixed; top: 0; width: 100%; bottom: 90%; font-size: large;">
+    <div class="center">
+        <ul class="nav navbar-nav">
+            <li class = "nav-item">
+                <a routerLink="home-page" routerLinkActive="active" class="nav-link">
+                    <i class="fa fa-fw fa-home"></i>Home page</a>
+            </li>
+        </ul>
+    </div>
+    
+    <div class="center-right">
+        <ul class="nav navbar-nav navbar-right">
+            <li class="nav-item" *ngIf="!(loginStatus | async)">
+                <a routerLink="register" routerLinkActive="active" class="nav-link">
+                    <span class="glyphicon glyphicon-user"></span> Register</a>
+            </li>
+            <li class="nav-item" *ngIf="!(loginStatus | async)">
+                <a routerLink="login" routerLinkActive="active" class="nav-link">
+                    <span class="glyphicon glyphicon-log-in"></span> Login</a>
+            </li>
+            <li class="nav-item" *ngIf="(loginStatus | async)">
+                <a routerLink="user-profile" routerLinkActive="active" class="nav-link" (click)="userProfile()">
+                    <i class="fa fa-user"></i> Profile</a>
+            </li>
+            <li class="nav-item" *ngIf="(loginStatus | async)">
+                <a routerLink="logout" routerLinkActive="active" class="nav-link" (click)="logout()">
+                    <i class="fa fa-sign-out"></i> Logout</a>
+            </li>
+        </ul>
+    </div>
+    
+</nav>

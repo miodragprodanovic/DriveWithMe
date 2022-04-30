@@ -1,0 +1,37 @@
+<div class="center">
+    <h1 class="text-center">Register</h1>
+    <form class="form" accept-charset="UTF-8" id="register-form" (ngSubmit)="register()" ngNativeValidate>
+        <div class="form-group">
+            <label>First name</label>
+            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First name" required pattern="{{ namePattern }}" title="{{ nameMessage }}">
+        </div>
+        <div class="form-group">
+            <label>Last name</label>
+            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last name" required pattern="{{ namePattern }}" title="{{ nameMessage }}">
+        </div>
+        <div class="form-group">
+            <label>Email address</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Email address" required (keyup)="checkEmail()">
+        </div>
+        <div *ngIf="emailExists">
+            <label style="color: red;">{{ emailMessage }}</label>
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" class="form-control" id="password1" name="password1" placeholder="Password" required minlength="8" (keyup)="checkPassword()">
+        </div>
+        <div class="form-group">
+            <label>Repeat password</label>
+            <input type="password" class="form-control" id="password2" name="password2" placeholder="Repeat password" required minlength="8" (keyup)="checkPassword()">
+        </div>
+        <div *ngIf="!passwordsMatch">
+            <label style="color: red;">{{ passwordMessage }}</label>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Sign up</button>
+        </div>
+    </form>
+    <div class="bottom text-center">
+        Already have an account ? <a href="login"><b>Sign in</b></a>
+    </div>    
+</div>
