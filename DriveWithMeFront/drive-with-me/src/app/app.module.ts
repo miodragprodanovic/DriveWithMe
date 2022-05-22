@@ -10,6 +10,9 @@ import { RegisterComponent } from './components/register/register.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FormsModule } from '@angular/forms';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { RidesPageComponent } from './components/rides-page/rides-page.component';
+import { CreateRideComponent } from './components/create-ride/create-ride.component';
+import { MyRidesComponent } from './components/my-rides/my-rides.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +21,10 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
     LoginComponent,
     RegisterComponent,
     NavbarComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    RidesPageComponent,
+    CreateRideComponent,
+    MyRidesComponent
   ],
   imports: [
     BrowserModule,

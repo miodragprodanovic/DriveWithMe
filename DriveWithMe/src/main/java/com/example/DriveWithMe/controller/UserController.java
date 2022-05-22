@@ -23,38 +23,42 @@ public class UserController {
 
     @GetMapping("/allUsers")
     public ResponseEntity<List<User>> getUsers() {
-        return new ResponseEntity<List<User>>(this.userService.getUsers(), HttpStatus.OK);
+        return new ResponseEntity<>(this.userService.getUsers(), HttpStatus.OK);
     }
 
-    @GetMapping("/findUserByEmail")
+    @GetMapping("/userByEmail")
     public ResponseEntity<User> findUserByEmail(@RequestParam String email) {
-        return new ResponseEntity<User>(userService.findUserByEmail(email), HttpStatus.OK);
+        return new ResponseEntity<>(userService.findUserByEmail(email), HttpStatus.OK);
     }
 
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody User user) {
-        if (userService.userExists(user.getEmail())) {
-            if (userService.findUserByEmail(user.getEmail()).getConfirmed()) {
-                return new ResponseEntity<User>((User) null, HttpStatus.NOT_ACCEPTABLE);
+        if (userService.checkRegistrationUser(user)) {
+            if (userService.userExists(user.getEmail())) {
+                if (userService.findUserByEmail(user.getEmail()).getConfirmed()) {
+                    return new ResponseEntity<>((User) null, HttpStatus.NOT_ACCEPTABLE);
+                } else {
+                    User newUser = userService.register(user);
+                    return new ResponseEntity<>(newUser, HttpStatus.OK);
+                }
             } else {
                 User newUser = userService.register(user);
-                return new ResponseEntity<User>(newUser, HttpStatus.OK);
+                return new ResponseEntity<>(newUser, HttpStatus.CREATED);
             }
         } else {
-            User newUser = userService.register(user);
-            return new ResponseEntity<User>(newUser, HttpStatus.CREATED);
+            return new ResponseEntity<>((User) null, HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
 
     @GetMapping("/activate")
     public ResponseEntity<User> activateUser(@RequestParam("token") String token) {
         User user = userService.activate(token);
-        return new ResponseEntity<User>(user, HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PostMapping("/canLogin")
     public ResponseEntity<Boolean> canLogin(@RequestBody User user) {
-        return new ResponseEntity<Boolean>(userService.canLogin(user), HttpStatus.OK);
+        return new ResponseEntity<>(userService.canLogin(user), HttpStatus.OK);
     }
 
     @PostMapping("/login")
@@ -67,32 +71,33 @@ public class UserController {
                 request.getSession(false).setAttribute("email", user.getEmail());
             }
 
-            return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+            return new ResponseEntity<>(true, HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<Boolean>(false, HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
         }
     }
 
-    @GetMapping("/findLoggedUser")
+    @GetMapping("/loggedUser")
     public ResponseEntity<User> findLoggedUser(HttpServletRequest request) {
         if (request.getSession().getAttribute("email") == null) {
-            return new ResponseEntity<User>((User) null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>((User) null, HttpStatus.NOT_FOUND);
         } else {
             String email = (String) request.getSession().getAttribute("email");
             User user = userService.findUserByEmail(email);
-            return new ResponseEntity<User>(user, HttpStatus.OK);
+            return new ResponseEntity<>(user, HttpStatus.OK);
         }
     }
 
     @PostMapping("/logout")
     public ResponseEntity<Boolean> logout(@RequestBody User user, HttpServletRequest request) {
-        String email = (String) request.getSession().getAttribute("email");
-        if (user.getEmail().equals(email)) {
+        String email = request.getSession().getAttribute("email").toString();
+        if (user.getEmail() != null && user.getEmail().equals(email)) {
             request.getSession().setAttribute("email", null);
-            return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+            request.getSession().invalidate();
+            return new ResponseEntity<>(true, HttpStatus.OK);
         } else {
-            return new ResponseEntity<Boolean>(false, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
         }
     }
 

@@ -1,0 +1,117 @@
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Starting point</th>
+                <th>Destination</th>
+                <th>Departure time</th>
+                <th>Arrival time</th>
+                <th>Price</th>
+                <th>Driver</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let ride of ridesAsDriver">
+                <td> {{ ride.startingPoint.city }} </td>
+                <td> {{ ride.destination.city }} </td>
+                <td> {{ ride.departureTime | date: 'dd.MM.yyyy. hh:mm' }} </td>
+                <td> {{ ride.arrivalTime | date: 'dd.MM.yyyy. hh:mm' }} </td>
+                <td> {{ ride.price.worth }} {{ ride.price.currency }} </td>
+                <td> {{ ride.driver.firstName }} {{ ride.driver.lastName }} </td>
+                <td><a (click)="seeRideDetails(ride.id)" style="cursor: pointer;"> Details </a></td>
+                <td><a (click)="deleteRide(ride.id)" style="cursor: pointer;"> Delete </a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div id="rideDetails" *ngIf="rideIsSelected">
+    <div>
+        <h3>Ride details</h3>
+        <button (click)="changeRideIsSelected(false)">&lt;&lt;</button>
+        <table>
+            <tr> <label> Starting point: </label> {{ selectedRide.startingPoint.city }}, {{ selectedRide.startingPoint.address }} </tr>
+            <tr> <label> Destination: </label> {{ selectedRide.destination.city }}, {{ selectedRide.destination.address }} </tr>
+            <tr> <label> Departure time: </label> {{ selectedRide.departureTime | date: 'dd.MM.yyyy. hh:mm' }} </tr>
+            <tr> <label> Arrival time: </label> {{ selectedRide.arrivalTime | date: 'dd.MM.yyyy. hh:mm' }} </tr>
+            <tr> <label> Price: </label> {{ selectedRide.price.worth }} {{ selectedRide.price.currency }} </tr>
+            <tr> <label> Car: </label> {{ selectedRide.driver.car }} </tr>
+            <tr> <label> Rules: </label> {{ selectedRide.rules }} </tr>
+            <tr> <label> Passengers: </label> 
+                <ul *ngFor="let p of selectedRide.passengers">
+                    <a (click)="viewUserProfile(p.email)" style="cursor: pointer;"> <li> {{ p.firstName }} {{ p.lastName }} </li> </a>
+                </ul>
+            </tr>
+            <tr> <label> Requests: </label> 
+                <ul *ngFor="let r of selectedRide.requests">
+                    <li> 
+                        <a (click)="viewUserProfile(r.email)" style="cursor: pointer;"> 
+                            {{ r.firstName }} {{ r.lastName }} 
+                        </a>
+                        <button (click)="acceptRideRequest(selectedRide.id, r.email)">Accept</button>
+                        <button (click)="declineRideRequest(selectedRide.id, r.email)">Decline</button>
+                    </li> 
+                </ul>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Starting point</th>
+                <th>Destination</th>
+                <th>Departure time</th>
+                <th>Arrival time</th>
+                <th>Price</th>
+                <th>Driver</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let ride of ridesAsPassenger">
+                <td> {{ ride.startingPoint.city }} </td>
+                <td> {{ ride.destination.city }} </td>
+                <td> {{ ride.departureTime | date: 'dd.MM.yyyy. hh:mm' }} </td>
+                <td> {{ ride.arrivalTime | date: 'dd.MM.yyyy. hh:mm' }} </td>
+                <td> {{ ride.price.worth }} {{ ride.price.currency }} </td>
+                <td> {{ ride.driver.firstName }} {{ ride.driver.lastName }} </td>
+                <td><a (click)="seeRideDetails(ride.id)" style="cursor: pointer;"> Details </a></td>
+                <td><a (click)="cancelRide(ride.id)" style="cursor: pointer;"> Cancel ride </a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Starting point</th>
+                <th>Destination</th>
+                <th>Departure time</th>
+                <th>Arrival time</th>
+                <th>Price</th>
+                <th>Driver</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let ride of rideRequests">
+                <td> {{ ride.startingPoint.city }} </td>
+                <td> {{ ride.destination.city }} </td>
+                <td> {{ ride.departureTime | date: 'dd.MM.yyyy. hh:mm' }} </td>
+                <td> {{ ride.arrivalTime | date: 'dd.MM.yyyy. hh:mm' }} </td>
+                <td> {{ ride.price.worth }} {{ ride.price.currency }} </td>
+                <td> {{ ride.driver.firstName }} {{ ride.driver.lastName }} </td>
+                <td><a (click)="seeRideDetails(ride.id)" style="cursor: pointer;"> Details </a></td>
+                <td><a (click)="cancelRideRequest(ride.id)" style="cursor: pointer;"> Cancel ride request </a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

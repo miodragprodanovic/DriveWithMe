@@ -8,27 +8,36 @@ import javax.persistence.*;
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
-    private String firstName;
-    private String lastName;
     @NotNull
     private String email;
     @NotNull
     private String password;
+    private String firstName;
+    private String lastName;
+    @Embedded
+    private Location location;
+    private String mobileNumber;
+    private String biography;
+    private String car;
     private UserRole userRole;
     private Boolean confirmed;
 
     public User() {}
 
-    public User(Long id, String firstName, String lastName, String email, String password, UserRole userRole) {
+    public User(Long id, String email, String password, String firstName, String lastName, Location location, String mobileNumber, String biography, String car, UserRole userRole, Boolean confirmed) {
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.location = location;
+        this.mobileNumber = mobileNumber;
+        this.biography = biography;
+        this.car = car;
         this.userRole = userRole;
-        this.confirmed = false;
+        this.confirmed = confirmed;
     }
 
     public Long getId() {
@@ -37,6 +46,18 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public String getFirstName() {
@@ -55,20 +76,40 @@ public class User {
         this.lastName = lastName;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
+    public String getBiography() {
+        return biography;
+    }
+
+    public void setBiography(String biography) {
+        this.biography = biography;
+    }
+
+    public String getCar() {
+        return car;
+    }
+
+    public void setCar(String car) {
+        this.car = car;
     }
 
     public UserRole getUserRole() {

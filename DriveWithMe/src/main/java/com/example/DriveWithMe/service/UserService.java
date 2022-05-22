@@ -27,6 +27,28 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public Boolean existsById(Long id) {
+        return userRepository.existsById(id);
+    }
+
+    public User getById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User with id = '" + id + "' doesn't exists!"));
+    }
+
+    public User findUserByEmail(String email) {
+        return userRepository.findUserByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("User with email '" + email + "' not found!"));
+    }
+
+    public Boolean userExists(String email) {
+        return userRepository.findUserByEmail(email).isPresent();
+    }
+
+    public Boolean confirmedUserExists(String email) {
+        return userRepository.findConfirmedUserByEmail(email).isPresent();
+    }
+
     public User register(User user) {
         if (!userRepository.findUserByEmail(user.getEmail()).isPresent()) {
             user.setConfirmed(false);
@@ -39,13 +61,26 @@ public class UserService {
         return user;
     }
 
-    public User findUserByEmail(String email) {
-        return userRepository.findUserByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("User with email '" + email + "' not found!"));
+    public Boolean checkRegistrationUser(User user) {
+        if (user.getEmail() == null || user.getEmail().equals("")) {
+            throw new IllegalArgumentException("Email can't be empty or null!");
+        } else if (user.getPassword() == null || user.getPassword().equals("")) {
+            throw new IllegalArgumentException("Password can't be empty or null!");
+        } else if (user.getPassword().length() < 8 || user.getPassword().length() > 30) {
+            throw new IllegalArgumentException("Password must have between 8 and 30 characters!");
+        } else if (user.getFirstName() == null || user.getFirstName().equals("")) {
+            throw new IllegalArgumentException("First name can't be empty or null!");
+        } else if (user.getLastName() == null || user.getLastName().equals("")) {
+            throw new IllegalArgumentException("Last name can't be empty or null!");
+        } else if (user.getMobileNumber() == null || user.getMobileNumber().equals("")) {
+            throw new IllegalArgumentException("Mobile number name can't be empty or null!");
+        }
+
+        return true;
     }
 
-    public boolean userExists(String email) {
-        return userRepository.findUserByEmail(email).isPresent();
+    public Boolean canLogin(User user) {
+        return userRepository.findConfirmedUserByEmailAndPassword(user.getEmail(), user.getPassword()).isPresent();
     }
 
     public User activate(String token){
@@ -67,9 +102,5 @@ public class UserService {
         }
 
         return user;
-    }
-
-    public Boolean canLogin(User user) {
-        return userRepository.findConfirmedUserByEmailAndPassword(user.getEmail(), user.getPassword()).isPresent();
     }
 }

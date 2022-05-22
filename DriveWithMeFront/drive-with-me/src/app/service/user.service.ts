@@ -18,12 +18,12 @@ export class UserService {
 
   constructor(private http: HttpClient) { 
     this.urlGetAllUsers = 'http://localhost:8080/api/users/allUsers',
-    this.urlGetUserByEmail = 'http://localhost:8080/api/users/findUserByEmail',
+    this.urlGetUserByEmail = 'http://localhost:8080/api/users/userByEmail',
     this.urlRegister = 'http://localhost:8080/api/users/register',
     this.urlCanLogin = 'http://localhost:8080/api/users/canLogin',
     this.urlLogin = 'http://localhost:8080/api/users/login',
     this.urlLogout = 'http://localhost:8080/api/users/logout',
-    this.urlFindLoggedUser = 'http://localhost:8080/api/users/findLoggedUser'
+    this.urlFindLoggedUser = 'http://localhost:8080/api/users/loggedUser'
   }
 
   public getAllUsers(): Observable<Array<User>> {

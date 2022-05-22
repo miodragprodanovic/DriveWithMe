@@ -1,0 +1,77 @@
+<div class="center">
+    <h1 class="text-center">Create a ride</h1>
+    <form class="form" accept-charset="UTF-8" id="create-ride-form" (ngSubmit)="createRide()" ngNativeValidate>
+        
+        <div class="left">
+            <div class="form-group">
+                <label>Starting point country</label>
+                <input type="text" class="form-control" id="startingPointCountry" name="startingPointCountry" placeholder="Starting point country" required>
+            </div>
+            <div class="form-group">
+                <label>Starting point city</label>
+                <input type="text" class="form-control" id="startingPointCity" name="startingPointCity" placeholder="Starting point city" required>
+            </div>
+            <div class="form-group">
+                <label>Starting point address</label>
+                <input type="text" class="form-control" id="startingPointAddress" name="startingPointAddress" placeholder="Starting point address" required>
+            </div>
+        </div>
+        
+        <div class="right">
+            <div class="form-group">
+                <label>Destination country</label>
+                <input type="text" class="form-control" id="destinationCountry" name="destinationCountry" placeholder="Destination country" required>
+            </div>
+            <div class="form-group">
+                <label>Destination city</label>
+                <input type="text" class="form-control" id="destinationCity" name="destinationCity" placeholder="Destination city" required>
+            </div>
+            <div class="form-group">
+                <label>Destination address</label>
+                <input type="text" class="form-control" id="destinationAddress" name="destinationAddress" placeholder="Destination address" required>
+            </div>
+        </div>
+        
+        <div class="left">
+            <div class="form-group">
+                <label>Departure time</label>
+                <input type="datetime-local" class="form-control" id="departureTime" name="departureTime" placeholder="Departure time" required>
+            </div>
+        </div>
+        <div class="right">
+            <div class="form-group">
+                <label>Arrival time</label>
+                <input type="datetime-local" class="form-control" id="arrivalTime" name="arrivalTime" placeholder="Arrival time" required>
+            </div>
+        </div>
+        <div class="centers">
+            <div *ngIf="!inputDatesValid">
+                <label style="color: red;">{{ dateTimeInvalidMessage }}</label>
+            </div>
+        </div>
+
+        <div class="centers">
+            <div class="form-group">
+                <label>Currency</label>
+                <input type="text" class="form-control" id="currency" name="currency" placeholder="Currency" required>
+            </div>
+            <div class="form-group">
+                <label>Price</label>
+                <input type="number" class="form-control" id="worth" name="worth" placeholder="Price" required min=0>
+            </div>
+            
+            <div class="form-group">
+                <label>Max passengers</label>
+                <input type="number" class="form-control" id="maxPassengers" name="maxPassengers" placeholder="Max passengers" required min=0 max=10>
+            </div>
+            <div class="form-group">
+                <label>Rules</label>
+                <input type="text" class="form-control" id="rules" name="rules" placeholder="Rules">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block">Create ride</button>
+            </div>
+        </div>
+        
+    </form>
+</div>

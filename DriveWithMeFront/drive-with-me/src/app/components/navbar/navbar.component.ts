@@ -36,6 +36,25 @@ export class NavbarComponent implements OnInit {
     this.userService.findLoggedUser().subscribe(user => {
       this.router.navigate(['/user-profile']);
     }, () => {
+      this.router.navigate(['/login']);
+      alert('You are not logged in!');
+    })
+  }
+
+  myRides(): void {
+    this.userService.findLoggedUser().subscribe(user => {
+      this.router.navigate(['/my-rides']);
+    }, () => {
+      this.router.navigate(['/login']);
+      alert('You are not logged in!');
+    })
+  }
+
+  createRide(): void {
+    this.userService.findLoggedUser().subscribe(user => {
+      this.router.navigate(['/create-ride']);
+    }, () => {
+      this.router.navigate(['/login']);
       alert('You are not logged in!');
     })
   }

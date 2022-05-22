@@ -1,0 +1,57 @@
+<div>
+    <div id="first" style="width: 100%; float: left; border: 2px solid red; padding: 20px;">
+        <div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Starting point</th>
+                        <th>Destination</th>
+                        <th>Departure time</th>
+                        <th>Arrival time</th>
+                        <th>Price</th>
+                        <th>Driver</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let ride of rides">
+                        <td> {{ ride.startingPoint.city }} </td>
+                        <td> {{ ride.destination.city }} </td>
+                        <td> {{ ride.departureTime | date: 'dd.MM.yyyy. hh:mm' }} </td>
+                        <td> {{ ride.arrivalTime | date: 'dd.MM.yyyy. hh:mm' }} </td>
+                        <td> {{ ride.price.worth }} {{ ride.price.currency }} </td>
+                        <td> {{ ride.driver.firstName }} {{ ride.driver.lastName }} </td>
+                        <td><a (click)="seeRideDetails(ride.id)" style="cursor: pointer;"> Details </a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="second" style="width: 30%; float: right; border: 2px solid red; padding: 20px;" *ngIf="rideIsSelected">
+        <div>
+            <h3>Ride details</h3>
+            <button (click)="changeRideIsSelected(false)">&lt;&lt;</button>
+            <button (click)="createRideRequest(selectedRide.id)" *ngIf="loggedIn">Request a ride</button>
+            <table>
+                <tr> <label> Starting point: </label> {{ selectedRide.startingPoint.city }}, {{ selectedRide.startingPoint.address }} </tr>
+                <tr> <label> Destination: </label> {{ selectedRide.destination.city }}, {{ selectedRide.destination.address }} </tr>
+                <tr> <label> Departure time: </label> {{ selectedRide.departureTime | date: 'dd.MM.yyyy. hh:mm' }} </tr>
+                <tr> <label> Arrival time: </label> {{ selectedRide.arrivalTime | date: 'dd.MM.yyyy. hh:mm' }} </tr>
+                <tr> <label> Price: </label> {{ selectedRide.price.worth }} {{ selectedRide.price.currency }} </tr>
+                <tr> <label> Car: </label> {{ selectedRide.driver.car }} </tr>
+                <tr> <label> Rules: </label> {{ selectedRide.rules }} </tr>
+                <tr> <label> Driver: </label> 
+                    <ul>
+                        <a (click)="viewUserProfile(selectedRide.driver.email)" style="cursor: pointer;"> <li > {{ selectedRide.driver.firstName }} {{ selectedRide.driver.lastName }}</li> </a>
+                    </ul>
+                </tr>
+                <tr> <label> Passengers: </label> 
+                    <ul *ngFor="let p of selectedRide.passengers">
+                        <a (click)="viewUserProfile(p.email)" style="cursor: pointer;"> <li> {{ p.firstName }} {{ p.lastName }} </li> </a>
+                    </ul>
+                </tr>
+                <tr> <label> Has free seats: </label> {{ free }} </tr>
+            </table>
+        </div>
+    </div>
+</div>

@@ -7,6 +7,21 @@
                 <a routerLink="home-page" routerLinkActive="active" class="nav-link">
                     <i class="fa fa-fw fa-home"></i>Home page</a>
             </li>
+            
+            <li class="nav-item">
+                <a routerLink="rides-page" routerLinkActive="active" class="nav-link">
+                    Rides</a>
+            </li>
+
+            <li class="nav-item" *ngIf="(loginStatus | async)">
+                <a routerLink="my-rides" routerLinkActive="active" class="nav-link" (click)="myRides()">
+                    My rides</a>
+            </li>
+            
+            <li class="nav-item" *ngIf="(loginStatus | async)">
+                <a routerLink="create-ride" routerLinkActive="active" class="nav-link" (click)="createRide()">
+                    Create ride</a>
+            </li>
         </ul>
     </div>
     
