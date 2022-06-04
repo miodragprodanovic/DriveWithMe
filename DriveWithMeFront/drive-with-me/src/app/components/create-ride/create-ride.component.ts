@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RideService } from 'src/app/service/ride.service';
-import { Ride } from 'src/app/model/ride';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Location } from 'src/app/model/location';
 import { Price } from 'src/app/model/price';
-import { User } from 'src/app/model/user';
 import { UserService } from 'src/app/service/user.service';
+import { UserDTO } from 'src/app/dto/user-dto';
+import { RideDTO } from 'src/app/dto/ride-dto';
 
 @Component({
   selector: 'app-create-ride',
@@ -15,7 +15,7 @@ import { UserService } from 'src/app/service/user.service';
 })
 export class CreateRideComponent implements OnInit {
 
-  loggedUser: User = new User();
+  loggedUser: UserDTO = new UserDTO();
 
   inputDatesValid: Boolean = true;
   dateTimeInvalidMessage: string = "";
@@ -56,7 +56,7 @@ export class CreateRideComponent implements OnInit {
   }
 
   private createNewRide(startingPointCountry: string, startingPointCity: string, startingPointAddress: string, destinationCountry: string, destinationCity: string, destinationAddress: string, departureTime: Date, arrivalTime: Date, currency: string, worth: number, maxPassengers: number, rules: string) {
-    let ride = new Ride();
+    let ride = new RideDTO();
     ride.startingPoint = new Location();
     ride.startingPoint.country = startingPointCountry;
     ride.startingPoint.city = startingPointCity;

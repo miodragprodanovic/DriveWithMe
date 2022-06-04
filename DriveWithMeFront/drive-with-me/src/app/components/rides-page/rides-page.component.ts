@@ -1,9 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { RideDTO } from 'src/app/dto/ride-dto';
 import { RideRequestDTO } from 'src/app/dto/ride-request-dto';
-import { Ride } from 'src/app/model/ride';
-import { User } from 'src/app/model/user';
+import { UserDTO } from 'src/app/dto/user-dto';
 import { RideService } from 'src/app/service/ride.service';
 import { UserService } from 'src/app/service/user.service';
 
@@ -14,12 +14,12 @@ import { UserService } from 'src/app/service/user.service';
 })
 export class RidesPageComponent implements OnInit {
 
-  loggedUser: User = new User();
+  loggedUser: UserDTO = new UserDTO();
   loggedIn: Boolean = false;
 
-  rides: Array<Ride> = new Array<Ride>();
+  rides: Array<RideDTO> = new Array<RideDTO>();
   rideIsSelected: boolean = false;
-  selectedRide: Ride = new Ride();
+  selectedRide: RideDTO = new RideDTO();
   free: string = "SOMETHING";
 
   constructor(private rideService: RideService, private userService: UserService, private router: Router) {

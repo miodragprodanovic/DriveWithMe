@@ -44,9 +44,9 @@ public class RideService {
     }
 
     public List<Ride> getRidesAsPassengerByUser(Long id) {
+        List<Ride> allRides = rideRepository.findAll();
         List<Ride> rides = new ArrayList<>();
 
-        List<Ride> allRides = rideRepository.findAll();
         for (Ride r : allRides) {
             for (User u : r.getPassengers()) {
                 if (u.getId().equals(id)) {
@@ -60,9 +60,9 @@ public class RideService {
     }
 
     public List<Ride> getRideRequestsByUserAsPassenger(Long id) {
+        List<Ride> allRides = rideRepository.findAll();
         List<Ride> rides = new ArrayList<>();
 
-        List<Ride> allRides = rideRepository.findAll();
         for (Ride r : allRides) {
             for (User u : r.getRequests()) {
                 if (u.getId().equals(id)) {

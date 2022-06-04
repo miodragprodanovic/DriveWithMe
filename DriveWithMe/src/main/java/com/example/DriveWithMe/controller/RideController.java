@@ -1,5 +1,7 @@
 package com.example.DriveWithMe.controller;
 
+import com.example.DriveWithMe.adapter.RideAdapter;
+import com.example.DriveWithMe.dto.RideDTO;
 import com.example.DriveWithMe.dto.RideRequestDTO;
 import com.example.DriveWithMe.model.Ride;
 import com.example.DriveWithMe.service.RideService;
@@ -17,54 +19,76 @@ import java.util.List;
 public class RideController {
     @Autowired
     private final RideService rideService;
+    @Autowired
+    private final RideAdapter rideAdapter;
 
-    public RideController(RideService rideService) {
+    public RideController(RideService rideService, RideAdapter rideAdapter) {
         this.rideService = rideService;
+        this.rideAdapter = rideAdapter;
     }
 
     @GetMapping("/allRides")
-    public ResponseEntity<List<Ride>> getRides() {
-        return new ResponseEntity<>(rideService.getRides(), HttpStatus.OK);
+    public ResponseEntity<List<RideDTO>> getRides() {
+        List<Ride> allRides = rideService.getRides();
+        List<RideDTO> allRideDTOs = this.rideAdapter.RidesToRideDTOs(allRides);
+
+        return new ResponseEntity<>(allRideDTOs, HttpStatus.OK);
     }
 
     @GetMapping("/rideById/{rideId}")
-    public ResponseEntity<Ride> getRideById(@PathVariable("rideId") Long rideId) {
-        return new ResponseEntity<>(rideService.getById(rideId), HttpStatus.OK);
+    public ResponseEntity<RideDTO> getRideById(@PathVariable("rideId") Long rideId) {
+        RideDTO rideDTO = this.rideAdapter.RideToRideDTO(rideService.getById(rideId));
+
+        return new ResponseEntity<>(rideDTO, HttpStatus.OK);
     }
 
     @GetMapping("/ridesByUserAsDriver")
-    public ResponseEntity<List<Ride>> getRidesAsDriverByUser(@RequestParam Long id) {
-        return new ResponseEntity<>(rideService.getRidesAsDriverByUser(id), HttpStatus.OK);
+    public ResponseEntity<List<RideDTO>> getRidesAsDriverByUser(@RequestParam Long id) {
+        List<RideDTO> rideDTOs = this.rideAdapter.RidesToRideDTOs(rideService.getRidesAsDriverByUser(id));
+
+        return new ResponseEntity<>(rideDTOs, HttpStatus.OK);
     }
 
     @GetMapping("/ridesByUserAsPassenger")
-    public ResponseEntity<List<Ride>> getRidesAsPassengerByUser(@RequestParam Long id) {
-        return new ResponseEntity<>(rideService.getRidesAsPassengerByUser(id), HttpStatus.OK);
+    public ResponseEntity<List<RideDTO>> getRidesAsPassengerByUser(@RequestParam Long id) {
+        List<RideDTO> rideDTOs = this.rideAdapter.RidesToRideDTOs(rideService.getRidesAsPassengerByUser(id));
+
+        return new ResponseEntity<>(rideDTOs, HttpStatus.OK);
     }
 
     @GetMapping("/rideRequestsByUserAsPassenger")
-    public ResponseEntity<List<Ride>> getRideRequestsByUserAsPassenger(@RequestParam Long id) {
-        return new ResponseEntity<>(rideService.getRideRequestsByUserAsPassenger(id), HttpStatus.OK);
+    public ResponseEntity<List<RideDTO>> getRideRequestsByUserAsPassenger(@RequestParam Long id) {
+        List<RideDTO> rideDTOs = this.rideAdapter.RidesToRideDTOs(rideService.getRideRequestsByUserAsPassenger(id));
+
+        return new ResponseEntity<>(rideDTOs, HttpStatus.OK);
     }
 
     @GetMapping("/todayRides")
-    public ResponseEntity<List<Ride>> getTodayRides() {
-        return new ResponseEntity<>(rideService.getTodayRides(), HttpStatus.OK);
+    public ResponseEntity<List<RideDTO>> getTodayRides() {
+        List<RideDTO> rideDTOs = this.rideAdapter.RidesToRideDTOs(rideService.getTodayRides());
+
+        return new ResponseEntity<>(rideDTOs, HttpStatus.OK);
     }
 
     @GetMapping("/ridesInPriceRange")
-    public ResponseEntity<List<Ride>> getRidesInPriceRange(@RequestParam String currency, @RequestParam double from, @RequestParam double to) {
-        return new ResponseEntity<>(rideService.getRidesInPriceRange(currency, from, to), HttpStatus.OK);
+    public ResponseEntity<List<RideDTO>> getRidesInPriceRange(@RequestParam String currency, @RequestParam double from, @RequestParam double to) {
+        List<RideDTO> rideDTOs = this.rideAdapter.RidesToRideDTOs(rideService.getRidesInPriceRange(currency, from, to));
+
+        return new ResponseEntity<>(rideDTOs, HttpStatus.OK);
     }
 
     @GetMapping("/ridesFromStartingPointToDestination")
-    public ResponseEntity<List<Ride>> getRidesFromStartingPointToDestination(@RequestParam String startingPointCity, @RequestParam String destinationCity) {
-        return new ResponseEntity<>(rideService.getRidesFromStartingPointToDestination(startingPointCity, destinationCity), HttpStatus.OK);
+    public ResponseEntity<List<RideDTO>> getRidesFromStartingPointToDestination(@RequestParam String startingPointCity, @RequestParam String destinationCity) {
+        List<RideDTO> rideDTOs = this.rideAdapter.RidesToRideDTOs(rideService.getRidesFromStartingPointToDestination(startingPointCity, destinationCity));
+
+        return new ResponseEntity<>(rideDTOs, HttpStatus.OK);
     }
 
     @GetMapping("/ridesFromStartingPointToDestinationInDateRange")
-    public ResponseEntity<List<Ride>> getRidesFromStartingPointToDestinationInDateRange(@RequestParam String startingPointCity, @RequestParam String destinationCity, @RequestParam String startTime, @RequestParam String endTime) {
-        return new ResponseEntity<>(rideService.getRidesFromStartingPointToDestinationInDateRange(startingPointCity, destinationCity, startTime, endTime), HttpStatus.OK);
+    public ResponseEntity<List<RideDTO>> getRidesFromStartingPointToDestinationInDateRange(@RequestParam String startingPointCity, @RequestParam String destinationCity, @RequestParam String startTime, @RequestParam String endTime) {
+        List<RideDTO> rideDTOs = this.rideAdapter.RidesToRideDTOs(rideService.getRidesFromStartingPointToDestinationInDateRange(startingPointCity, destinationCity, startTime, endTime));
+
+        return new ResponseEntity<>(rideDTOs, HttpStatus.OK);
     }
 
     @GetMapping("/rideHasFreeSeats/{rideId}")
@@ -73,11 +97,13 @@ public class RideController {
     }
 
     @PostMapping("/createRide")
-    public ResponseEntity<Ride> createRide(@RequestBody Ride ride, HttpServletRequest request) {
+    public ResponseEntity<RideDTO> createRide(@RequestBody RideDTO rideDTO, HttpServletRequest request) {
         if (request.getSession().getAttribute("email") != null) {
             String loggedUserEmail = request.getSession().getAttribute("email").toString();
+            Ride ride = this.rideAdapter.RideDTOToRide(rideDTO);
             rideService.checkRide(ride, loggedUserEmail);
-            return new ResponseEntity<>(rideService.createRide(ride), HttpStatus.CREATED);
+
+            return new ResponseEntity<>(this.rideAdapter.RideToRideDTO(rideService.createRide(ride)), HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
@@ -104,14 +130,15 @@ public class RideController {
     }
 
     @PutMapping("/createRideRequest")
-    public ResponseEntity<Ride> createRideRequest(@RequestBody RideRequestDTO rideRequestDTO, HttpServletRequest request) {
+    public ResponseEntity<RideDTO> createRideRequest(@RequestBody RideRequestDTO rideRequestDTO, HttpServletRequest request) {
         if (rideRequestDTO != null && rideRequestDTO.getRideId() != null && rideRequestDTO.getUserEmail() != null) {
             if (request.getSession().getAttribute("email") != null) {
                 String loggedUserEmail = request.getSession().getAttribute("email").toString();
                 String requestEmail = rideRequestDTO.getUserEmail();
                 if (requestEmail.equals(loggedUserEmail)) {
                     rideService.checkRideRequest(rideRequestDTO);
-                    return new ResponseEntity<>(rideService.createRideRequest(rideRequestDTO), HttpStatus.OK);
+                    RideDTO rideDTO = this.rideAdapter.RideToRideDTO(rideService.createRideRequest(rideRequestDTO));
+                    return new ResponseEntity<>(rideDTO, HttpStatus.OK);
                 } else {
                     return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
                 }

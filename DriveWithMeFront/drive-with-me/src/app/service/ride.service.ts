@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Ride } from '../model/ride';
+import { RideDTO } from '../dto/ride-dto';
 import { Observable } from 'rxjs';
 import { RideRequestDTO } from '../dto/ride-request-dto';
 
@@ -47,73 +47,73 @@ export class RideService {
     this.urlDeclineRideRequest = 'http://localhost:8080/api/rides/declineRideRequest'
   }
 
-  public getAllRides(): Observable<Array<Ride>> {
+  public getAllRides(): Observable<Array<RideDTO>> {
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
 
-    return this.http.get<Array<Ride>>(this.urlGetAllRides, { headers: headers } );
+    return this.http.get<Array<RideDTO>>(this.urlGetAllRides, { headers: headers } );
   }
 
-  public getRideById(rideId: number): Observable<Ride> {
+  public getRideById(rideId: number): Observable<RideDTO> {
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
 
-    return this.http.get<Ride>(this.urlGetRideById + rideId.toString(), { headers: headers } );
+    return this.http.get<RideDTO>(this.urlGetRideById + rideId.toString(), { headers: headers } );
   }
 
-  public getRidesByUserAsDriver(id: number): Observable<Array<Ride>> {
-    let headers = new HttpHeaders();
-    headers.append('Content-Type', 'application/json');
-    let params = new HttpParams().set("id", id);
-
-    return this.http.get<Array<Ride>>(this.urlRidesByUserAsDriver, { headers: headers, params: params, withCredentials: true } );
-  }
-
-  public getRidesByUserAsPassenger(id: number): Observable<Array<Ride>> {
+  public getRidesByUserAsDriver(id: number): Observable<Array<RideDTO>> {
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
     let params = new HttpParams().set("id", id);
 
-    return this.http.get<Array<Ride>>(this.urlRidesByUserAsPassenger, { headers: headers, params: params, withCredentials: true } );
+    return this.http.get<Array<RideDTO>>(this.urlRidesByUserAsDriver, { headers: headers, params: params, withCredentials: true } );
   }
 
-  public getRideRequestsByUserAsPassenger(id: number): Observable<Array<Ride>> {
+  public getRidesByUserAsPassenger(id: number): Observable<Array<RideDTO>> {
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
     let params = new HttpParams().set("id", id);
 
-    return this.http.get<Array<Ride>>(this.urlRideRequestsByUserAsPassenger, { headers: headers, params: params, withCredentials: true } );
+    return this.http.get<Array<RideDTO>>(this.urlRidesByUserAsPassenger, { headers: headers, params: params, withCredentials: true } );
   }
 
-  public getTodayRides(): Observable<Array<Ride>> {
+  public getRideRequestsByUserAsPassenger(id: number): Observable<Array<RideDTO>> {
+    let headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+    let params = new HttpParams().set("id", id);
+
+    return this.http.get<Array<RideDTO>>(this.urlRideRequestsByUserAsPassenger, { headers: headers, params: params, withCredentials: true } );
+  }
+
+  public getTodayRides(): Observable<Array<RideDTO>> {
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
 
-    return this.http.get<Array<Ride>>(this.urlTodayRides, { headers: headers, withCredentials: true } );
+    return this.http.get<Array<RideDTO>>(this.urlTodayRides, { headers: headers, withCredentials: true } );
   }
 
-  public getRidesInPriceRange(currency: string, from: number, to: number): Observable<Array<Ride>> {
+  public getRidesInPriceRange(currency: string, from: number, to: number): Observable<Array<RideDTO>> {
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
     let params = new HttpParams().set("currency", currency).set("from", from).set("to", to);
 
-    return this.http.get<Array<Ride>>(this.urlRidesInPriceRange, { headers: headers, params: params, withCredentials: true } );
+    return this.http.get<Array<RideDTO>>(this.urlRidesInPriceRange, { headers: headers, params: params, withCredentials: true } );
   }
 
-  public getRidesFromStartingPointToDestination(startingPointCity: string, destinationCity: string): Observable<Array<Ride>> {
+  public getRidesFromStartingPointToDestination(startingPointCity: string, destinationCity: string): Observable<Array<RideDTO>> {
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
     let params = new HttpParams().set("startingPointCity", startingPointCity).set("destinationCity", destinationCity);
 
-    return this.http.get<Array<Ride>>(this.urlRidesFromStartingPointToDestination, { headers: headers, params: params, withCredentials: true } );
+    return this.http.get<Array<RideDTO>>(this.urlRidesFromStartingPointToDestination, { headers: headers, params: params, withCredentials: true } );
   }
 
-  public getRidesFromStartingPointToDestinationInDateRange(startingPointCity: string, destinationCity: string, startTime: string, endTime: string): Observable<Array<Ride>> {
+  public getRidesFromStartingPointToDestinationInDateRange(startingPointCity: string, destinationCity: string, startTime: string, endTime: string): Observable<Array<RideDTO>> {
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
     let params = new HttpParams().set("startingPointCity", startingPointCity).set("destinationCity", destinationCity).set("startTime", startTime).set("endTime", endTime);
 
-    return this.http.get<Array<Ride>>(this.urlRidesFromStartingPointToDestinationInDateRange, { headers: headers, params: params, withCredentials: true } );
+    return this.http.get<Array<RideDTO>>(this.urlRidesFromStartingPointToDestinationInDateRange, { headers: headers, params: params, withCredentials: true } );
   }
 
   public getRideHasFreeSeats(rideId: number): Observable<Boolean> {
@@ -123,8 +123,8 @@ export class RideService {
     return this.http.get<Boolean>(this.urlRideHasFreeSeats + rideId.toString(), { headers: headers, withCredentials: true } );
   }
 
-  public createRide(ride: Ride): Observable<Ride> {
-    return this.http.post<Ride>(this.urlCreateRide, ride, { withCredentials: true });
+  public createRide(ride: RideDTO): Observable<RideDTO> {
+    return this.http.post<RideDTO>(this.urlCreateRide, ride, { withCredentials: true });
   }
 
   public deleteRide(rideId: number): Observable<Boolean> {
@@ -134,8 +134,8 @@ export class RideService {
     return this.http.delete<Boolean>(this.urlDeleteRide + rideId.toString(), { headers: headers, withCredentials: true });
   }
 
-  public createRideRequest(rideRequestDTO: RideRequestDTO): Observable<Ride> {
-    return this.http.put<Ride>(this.urlCreateRideRequest, rideRequestDTO, { withCredentials: true });
+  public createRideRequest(rideRequestDTO: RideRequestDTO): Observable<RideDTO> {
+    return this.http.put<RideDTO>(this.urlCreateRideRequest, rideRequestDTO, { withCredentials: true });
   }
 
   public cancelRideRequest(rideRequestDTO: RideRequestDTO): Observable<Boolean> {

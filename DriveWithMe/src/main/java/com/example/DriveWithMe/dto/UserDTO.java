@@ -1,22 +1,16 @@
-package com.example.DriveWithMe.model;
+package com.example.DriveWithMe.dto;
 
-import com.sun.istack.internal.NotNull;
+import com.example.DriveWithMe.model.Location;
+import com.example.DriveWithMe.model.User;
+import com.example.DriveWithMe.model.UserRole;
 
-import javax.persistence.*;
+import java.util.List;
 
-@Entity
-@Table(name = "users")
-public class User {
-    @Id
-    @GeneratedValue
+public class UserDTO {
     private Long id;
-    @NotNull
     private String email;
-    @NotNull
-    private String password;
     private String firstName;
     private String lastName;
-    @Embedded
     private Location location;
     private String mobileNumber;
     private String biography;
@@ -24,21 +18,7 @@ public class User {
     private UserRole userRole;
     private Boolean confirmed;
 
-    public User() {}
-
-    public User(Long id, String email, String password, String firstName, String lastName, Location location, String mobileNumber, String biography, String car, UserRole userRole, Boolean confirmed) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.location = location;
-        this.mobileNumber = mobileNumber;
-        this.biography = biography;
-        this.car = car;
-        this.userRole = userRole;
-        this.confirmed = confirmed;
-    }
+    public UserDTO() {}
 
     public Long getId() {
         return id;
@@ -54,14 +34,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getFirstName() {

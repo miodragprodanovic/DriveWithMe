@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from 'src/app/model/user';
+import { UserDTO } from 'src/app/dto/user-dto';
 import { UserService } from 'src/app/service/user.service';
 
 @Component({
@@ -8,7 +8,7 @@ import { UserService } from 'src/app/service/user.service';
   styleUrls: ['./home-page.component.css']
 })
 export class HomePageComponent implements OnInit {
-  users: Array<User> = new Array<User>();
+  users: Array<UserDTO> = new Array<UserDTO>();
 
   constructor(private userService: UserService) {}
 

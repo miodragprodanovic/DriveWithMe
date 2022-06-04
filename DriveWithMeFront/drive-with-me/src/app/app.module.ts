@@ -13,6 +13,8 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { RidesPageComponent } from './components/rides-page/rides-page.component';
 import { CreateRideComponent } from './components/create-ride/create-ride.component';
 import { MyRidesComponent } from './components/my-rides/my-rides.component';
+import { ChangeInfoComponent } from './components/change-info/change-info.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { MyRidesComponent } from './components/my-rides/my-rides.component';
     UserProfileComponent,
     RidesPageComponent,
     CreateRideComponent,
-    MyRidesComponent
+    MyRidesComponent,
+    ChangeInfoComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,

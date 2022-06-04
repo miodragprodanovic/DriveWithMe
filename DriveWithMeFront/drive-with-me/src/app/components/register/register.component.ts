@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from 'src/app/model/user';
+import { UserRegisterDTO } from 'src/app/dto/user-register-dto';
 import { UserRole } from 'src/app/model/user-role';
 import { UserService } from 'src/app/service/user.service';
 
@@ -11,7 +11,7 @@ import { UserService } from 'src/app/service/user.service';
 })
 export class RegisterComponent implements OnInit {
 
-  user: User = new User();
+  user: UserRegisterDTO = new UserRegisterDTO();
 
   namePattern: string = '';
   nameMessage: string = '';
@@ -23,7 +23,6 @@ export class RegisterComponent implements OnInit {
   emailExists: boolean = false;
 
   constructor(private userService: UserService, private router: Router) {
-    this.user.confirmed = false;
     this.user.userRole = UserRole.Client;
     this.namePattern = '([A-ZŠĐČĆŽ][a-zšđčćž]+)([ \-][A-ZŠĐČĆŽ][a-zšđčćž]+)*'
     this.nameMessage = 'Only letters are allowed. More than one name is allowed. First letter of every name must be capital and every name must have more than one letter. Names should be separated by \'-\' or \'white space\'.';

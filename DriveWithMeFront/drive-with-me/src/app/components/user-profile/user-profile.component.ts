@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from 'src/app/model/user';
+import { UserDTO } from 'src/app/dto/user-dto';
 import { UserService } from 'src/app/service/user.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { UserService } from 'src/app/service/user.service';
 })
 export class UserProfileComponent implements OnInit {
 
-  user: User = new User();
+  user: UserDTO = new UserDTO();
 
   constructor(private userService: UserService, private router: Router) { }
 
